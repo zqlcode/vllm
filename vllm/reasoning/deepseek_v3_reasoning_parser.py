@@ -34,11 +34,16 @@ class DeepSeekV3ReasoningParser(ReasoningParser):
         enable_thinking = bool(chat_kwargs.get("enable_thinking", False))
         thinking = thinking or enable_thinking
 
-        self._parser: ReasoningParser
+        self._r1_parser = DeepSeekR1ReasoningParser(tokenizer, *args, **kwargs)
+        self._identity_parser = IdentityReasoningParser(tokenizer, *args, **kwargs)
+
+        self.select_parser(thinking)
+
+    def select_parser(self, thinking: bool):
         if thinking:
-            self._parser = DeepSeekR1ReasoningParser(tokenizer, *args, **kwargs)
+            self._parser = self._r1_parser
         else:
-            self._parser = IdentityReasoningParser(tokenizer, *args, **kwargs)
+            self._parser = self._identity_parser
 
     def is_reasoning_end(self, input_ids: Sequence[int]) -> bool:
         return self._parser.is_reasoning_end(input_ids)

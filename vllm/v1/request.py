@@ -73,6 +73,7 @@ class Request:
         block_hasher: Callable[["Request"], list["BlockHash"]] | None = None,
         resumable: bool = False,
         reasoning_ended: bool | None = None,
+        thinking: bool = False,
     ) -> None:
         self.request_id = request_id
         self.client_index = client_index

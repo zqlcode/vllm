@@ -78,6 +78,7 @@ class EngineClient(ABC):
         priority: int = 0,
         data_parallel_rank: int | None = None,
         reasoning_ended: bool | None = None,
+        thinking: bool | None = None,
     ) -> AsyncGenerator[RequestOutput, None]:
         """Generate outputs for a request."""
         ...
